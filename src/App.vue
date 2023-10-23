@@ -17,7 +17,7 @@ export default {
 
 <style>
 #app {
-  font-family: Open Sans, sans-serif;
+  font-family: Open Sans, Roboto, sans-serif;
 }
 .logo {
   width: 104px;

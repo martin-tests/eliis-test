@@ -44,10 +44,12 @@
             </div>
           </div>
         </div>
-        <div class="flex justify-end mt-10">
-          <UIButton type="submit">Save</UIButton>
-          <UIButton type="button" button-style="link" @click="$emit('close')">Cancel</UIButton>
+        <div class="flex justify-between mt-10">
           <UIButton type="button" button-style="danger" @click="$emit('delete')">Delete</UIButton>
+          <div>
+            <UIButton type="button" button-style="link" @click="$emit('close')">Cancel</UIButton>
+            <UIButton type="submit">Save</UIButton>
+          </div>
         </div>
       </form>
     </div>
@@ -123,15 +125,15 @@ export default {
 
 <style scoped>
 .form-row {
-  @apply grid grid-cols-[1fr_4fr] items-center h-6 mx-2 my-3;
+  @apply grid grid-cols-[1fr_4fr] items-end h-6 mx-2 my-3;
 }
 .form-row-datetime {
-  @apply grid grid-cols-[1fr_2fr_2fr] items-center mx-2 my-3;
+  @apply grid grid-cols-[1fr_2fr_2fr] items-end mx-2 my-3;
 }
 .label {
-  @apply text-right text-sm font-roboto font-semibold text-gray-500 mr-4;
+  @apply text-right text-sm font-semibold text-gray-700 mr-4;
 }
 .label-sm {
-  @apply block text-xs font-semibold text-gray-500 mr-2;
+  @apply block text-xs font-medium text-gray-700 mr-2;
 }
 </style>
