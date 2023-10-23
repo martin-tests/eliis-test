@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="max-w-10xl mx-auto">
     <img class="logo" alt="Logo" src="@/assets/eliis_logo.png" width="104" height="34">
     <CalendarView />
   </div>
@@ -23,5 +23,6 @@ export default {
 .logo {
   width: 104px;
   height: auto;
+  margin: 1rem;
 }
 </style>

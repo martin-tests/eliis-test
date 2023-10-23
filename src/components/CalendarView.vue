@@ -1,8 +1,12 @@
 <template>
-  <div>
-    <p>Click on a date to create an event on that day</p>
+  <div class="mt-4 mx-2">
+    <h1 class="text-3xl">Event calendar</h1>
+    <p class="text-gray-400 mt-2">Click on a date to create an event on that day</p>
     <EventEditor v-show="showModal" :event="editingEvent" @save-event="handleEventSave" @close="closeEventEdit" @delete="deleteEvent" />
-    <FullCalendar :options="computedOptions" />
+    <div class="flex mt-4">
+      <EventTypesFilter class="hidden md:block p-4 border-r-[1px] border-r-gray-200" />
+      <FullCalendar class="flex-grow p-4" :options="computedOptions" />
+    </div>
   </div>
 </template>
 
@@ -11,11 +15,13 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import EventEditor from '@/components/EventEditor.vue'
+import EventTypesFilter from '@/components/EventTypesFilter.vue'
 
 export default {
   components: {
     FullCalendar,
-    EventEditor 
+    EventEditor,
+    EventTypesFilter
   },
   data() {
     return {

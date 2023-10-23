@@ -15,13 +15,19 @@ const formatEventsForCalendar = (events) => {
   });
 }
 
+const initializeEventTypeFilter = () => {
+  return eventTypes.map(eventType => ({ ...eventType, selected: true }));
+}
+
 export default new Vuex.Store({
   state: {
-    events: await loadPersistedEvents()
+    events: await loadPersistedEvents(),
+    activeEventTypeFilter: initializeEventTypeFilter()
   },
   getters: {
-    getEventsForCalendar: state => formatEventsForCalendar(state.events),
-    getEventById: state => id => state.events.find(event => event.id === id)
+    getEventsForCalendar: state => formatEventsForCalendar(state.events.filter(event => state.activeEventTypeFilter.find(eventType => eventType.name === event.type && eventType.selected))),
+    getEventById: state => id => state.events.find(event => event.id === id),
+    getEventTypesFilter: state => state.activeEventTypeFilter
   },
   mutations: {
     addEvent (state, event) {
@@ -40,6 +46,11 @@ export default new Vuex.Store({
       if (idx === -1) return;
       state.events.splice(idx, 1);
       persistEvents(state.events);
+    },
+    toggleEventTypeFilter (state, name) { 
+      const idx = state.activeEventTypeFilter.findIndex(eventType => eventType.name === name);
+      if (idx === -1) return;
+      state.activeEventTypeFilter[idx].selected = !state.activeEventTypeFilter[idx].selected;
     }
   },
   actions: {

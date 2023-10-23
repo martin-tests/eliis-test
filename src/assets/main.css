@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input, select, textarea {
+  @apply text-sm rounded-sm shadow-sm h-6; 
+}
+
+/* FullCalendar theming overrides */
+:root {
+  --fc-button-bg-color: #f79e80;
+  --fc-button-border-color: #f79e80;
+  --fc-button-hover-bg-color: #e89377;
+  --fc-button-hover-border-color: #e89377;
+}
