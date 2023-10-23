@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global styling */
 input, select, textarea {
   @apply text-sm rounded-sm shadow-sm h-6; 
 }
@@ -12,4 +13,7 @@ input, select, textarea {
   --fc-button-border-color: #f79e80;
   --fc-button-hover-bg-color: #e89377;
   --fc-button-hover-border-color: #e89377;
+}
+.fc-toolbar-title {
+  text-align: center; /* center the title for mobile */
 }

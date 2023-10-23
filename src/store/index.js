@@ -57,7 +57,6 @@ export default new Vuex.Store({
     addOrModifyEvent ({ commit }, event) { 
       if (event.id && event.id.length) {
         commit('modifyEvent', event);
-        return;
       } else {
         commit('addEvent', event);
       }

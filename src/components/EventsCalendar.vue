@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4 mx-2">
     <h1 class="text-3xl">Event calendar</h1>
-    <p class="text-gray-400 mt-2">Click on a date to create an event on that day</p>
+    <UITip>Click on a date to create an event on that day</UITip>
     <EventEditor v-show="showModal" :event="editingEvent" @save-event="handleEventSave" @close="closeEventEdit" @delete="deleteEvent" />
     <div class="flex mt-4">
       <EventTypesFilter class="hidden md:block p-4 border-r-[1px] border-r-gray-200" />
@@ -16,12 +16,14 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import EventEditor from '@/components/EventEditor.vue'
 import EventTypesFilter from '@/components/EventTypesFilter.vue'
+import UITip from '@/components/ui/UITip.vue'
 
 export default {
   components: {
     FullCalendar,
     EventEditor,
-    EventTypesFilter
+    EventTypesFilter,
+    UITip
   },
   data() {
     return {
@@ -48,13 +50,15 @@ export default {
         editable: true,
         selectable: true,
         select: this.handleDateSelect,
-        eventClick: this.handleEventClick
+        eventClick: this.handleEventClick,
+        dateClick: this.handleDateClick
       },
       showModal: false,
       emptyEvent: {
         id: '',
         title: '',
         start: '',
+        end: '',
         type: ''
       },
       editingEvent: this.emptyEvent
@@ -74,18 +78,25 @@ export default {
       this.showModal = true;
     },
     closeEventEdit() {
-      this.showModal = false;
-      this.editingEvent = this.emptyEvent;
+      if (this.$route.params.id) {
+        this.$router.push('/events');
+      } else {
+        this.showModal = false;
+        this.editingEvent = this.emptyEvent;
+      }
     },
     handleNewEvent() {
+      // this.$router.push('/events/new');
       this.openEventEdit();
     },
     handleDateSelect(selectInfo) {
-      this.openEventEdit({start: selectInfo.startStr});
+      this.openEventEdit({ start: selectInfo.startStr, end: selectInfo.endStr });
     },
     handleEventClick(clickInfo) {
-      const event = this.$store.getters.getEventById(clickInfo.event.id);
-      this.openEventEdit(event);
+      this.$router.push(`/events/${clickInfo.event.id}`);
+    },
+    handleDateClick(clickInfo) {
+      this.openEventEdit({ start: clickInfo.dateStr });
     },
     handleEventSave(event) {
       this.$store.dispatch('addOrModifyEvent', event);
@@ -94,7 +105,22 @@ export default {
     deleteEvent() {
       this.$store.dispatch('deleteEvent', this.editingEvent.id);
       this.closeEventEdit();
+    },
+    handleRouteId() {
+      const id = this.$route.params.id;
+      if (id) {
+        const event = this.$store.getters.getEventById(id);
+        this.openEventEdit(event);
+      } else {
+        this.closeEventEdit();
+      }
     }
+  },
+  created() {
+    this.handleRouteId();
+    this.$watch(() => this.$route.params.id, () => {
+      this.handleRouteId();
+    });
   }
 }
 </script>

@@ -2,7 +2,7 @@ import localForage from 'localforage'
 
 const EVENTS_KEY = 'et-events';
 
-const persistedEventFields = ['id', 'title', 'start', 'type'];
+const persistedEventFields = ['id', 'title', 'start', 'end', 'type'];
 
 const storageInstance = localForage.createInstance({
   name: 'eliis-test',
@@ -19,6 +19,7 @@ export const persistEvents = (events) => {
   });
   storageInstance.setItem(EVENTS_KEY, JSON.stringify(harmonizedEvents));
 }
+
 export const loadPersistedEvents = async () => { 
   const events = await storageInstance.getItem(EVENTS_KEY);
   return events ? JSON.parse(events) : [];
